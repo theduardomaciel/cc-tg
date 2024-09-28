@@ -1,0 +1,4 @@
+# Ignorar todos os arquivos com a extensão .bin
+*.bin
+
+bin/
