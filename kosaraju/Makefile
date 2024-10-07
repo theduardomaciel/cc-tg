@@ -11,20 +11,14 @@ INCLUDES = -I$(PROJECT_ROOT)
 # Arquivos Fonte
 SOURCES = kosaraju.cpp
 
-# Arquivos Objetos
-OBJECTS = kosaraju.o
-
 # Arquivo Executável
-EXEC = kosaraju
+EXEC = kosaraju.out
 
 # Regras de Compilação
 all: $(EXEC)
 
-$(EXEC): $(OBJECTS)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -o $(EXEC) $(OBJECTS)
-
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+$(EXEC): $(SOURCES)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SOURCES) -o $(EXEC)
 
 # Limpeza
 clean:

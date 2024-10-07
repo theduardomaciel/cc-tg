@@ -1,38 +1,45 @@
-# Compilador e flags
+# Makefile para BFS e DFS
+
+# Compilador
 CXX = g++
 CXXFLAGS = -Wall -std=c++11
 
-# Nomes dos executáveis
-BFS_EXEC = bfs.out
-DFS_EXEC = dfs.out
+# Diretórios
+PROJECT_ROOT = ../
+INCLUDES = -I$(PROJECT_ROOT)
 
-# Arquivos fonte
+# Arquivos Fonte
 BFS_SRC = bfs.cpp
 DFS_SRC = dfs.cpp
 
-# Arquivos de cabeçalho
-HEADERS = bfs.h dfs.h graph.h
+# Arquivo Executáveis
+BFS_EXEC = bfs.out
+DFS_EXEC = dfs.out
 
-# Regra padrão para compilar todos os executáveis
+# Regras de Compilação
 all: $(BFS_EXEC) $(DFS_EXEC)
 
-# Regra pra compilar o BFS
-$(BFS_EXEC): $(BFS_SRC) $(HEADERS)
-	$(CXX) $(CXXFLAGS) $(BFS_SRC) -o $(BFS_EXEC)
+$(BFS_EXEC): $(BFS_SRC)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(BFS_SRC) -o $(BFS_EXEC)
 
-# Regra pra compilar o DFS
-$(DFS_EXEC): $(DFS_SRC) $(HEADERS)
-	$(CXX) $(CXXFLAGS) $(DFS_SRC) -o $(DFS_EXEC)
+$(DFS_EXEC): $(DFS_SRC)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(DFS_SRC) -o $(DFS_EXEC)
 
-# Regra pra rodar o BFS
+# Limpeza
+clean:
+	rm -f $(BFS_EXEC) $(DFS_EXEC)
+
+# Execução
 run_bfs: $(BFS_EXEC)
 	./$(BFS_EXEC) < ../graph.dat
-#	$(MAKE) clean
 
-# Regra pra rodar o DFS
 run_dfs: $(DFS_EXEC)
 	./$(DFS_EXEC) < ../graph.dat
 
-# Regra de limpeza para remover os executáveis
-clean:
-	rm -f $(BFS_EXEC) $(DFS_EXEC)
+# Help
+help:
+	@echo "Uso:"
+	@echo "  make        - Compila os programas BFS e DFS"
+	@echo "  make clean  - Remove os executáveis"
+	@echo "  make run_bfs - Compila e executa o programa BFS"
+	@echo "  make run_dfs - Compila e executa o programa DFS"
