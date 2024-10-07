@@ -1,18 +1,38 @@
-# Variáveis
+# Compilador e flags
 CXX = g++
-CXXFLAGS = -Wall -std=c++20
+CXXFLAGS = -Wall -std=c++11
 
-# Criação do diretório bin e compilação
-bfs: bfs.cpp graph.h | bin
-	$(CXX) $(CXXFLAGS) -o ../bin/bfs.bin bfs.cpp graph.h && ../bin/bfs.bin < graph.dat
+# Nomes dos executáveis
+BFS_EXEC = bfs.out
+DFS_EXEC = dfs.out
 
-dfs: dfs.cpp graph.h | bin
-	$(CXX) $(CXXFLAGS) -o ../bin/dfs.bin dfs.cpp graph.h && ../bin/dfs.bin < graph.dat
+# Arquivos fonte
+BFS_SRC = bfs.cpp
+DFS_SRC = dfs.cpp
 
-# Criação do diretório bin, se não existir
-bin:
-	mkdir -p ../bin
+# Arquivos de cabeçalho
+HEADERS = bfs.h dfs.h graph.h
 
-# Limpeza dos arquivos gerados
+# Regra padrão para compilar todos os executáveis
+all: $(BFS_EXEC) $(DFS_EXEC)
+
+# Regra pra compilar o BFS
+$(BFS_EXEC): $(BFS_SRC) $(HEADERS)
+	$(CXX) $(CXXFLAGS) $(BFS_SRC) -o $(BFS_EXEC)
+
+# Regra pra compilar o DFS
+$(DFS_EXEC): $(DFS_SRC) $(HEADERS)
+	$(CXX) $(CXXFLAGS) $(DFS_SRC) -o $(DFS_EXEC)
+
+# Regra pra rodar o BFS
+run_bfs: $(BFS_EXEC)
+	./$(BFS_EXEC) < ../graph.dat
+#	$(MAKE) clean
+
+# Regra pra rodar o DFS
+run_dfs: $(DFS_EXEC)
+	./$(DFS_EXEC) < ../graph.dat
+
+# Regra de limpeza para remover os executáveis
 clean:
-	rm -rf ../bin
+	rm -f $(BFS_EXEC) $(DFS_EXEC)

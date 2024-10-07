@@ -1,36 +1,7 @@
-#include <vector>
 #include <iostream>
-
-#include "graph.h"
+#include "dfs.h"
 
 using namespace std;
-
-void dfsRecursive(Graph &g, int v)
-{
-    g.pre[v] = g.counter++;
-
-    // adj = vetor de vetores | adj[v] = vetor de adjacência do vértice v
-    for (int w : g.adj[v])
-    {
-        if (g.pre[w] == -1)
-        {
-            dfsRecursive(g, w);
-        }
-    }
-    // ou for(int i = 0; i < adj[v].size(); i++) { int w = adj[v][i]; }
-}
-
-// O & é uma referência, ou seja, é um ponteiro que não precisa ser desreferenciado
-// É um ponteiro mais elegante (não precisa passar o operador ->)
-void dfs(Graph &g)
-{
-    int n = g.adj.size();
-    for (int v = 0; v < n; v++)
-    {
-        if (g.pre[v] == -1)
-            dfsRecursive(g, v);
-    }
-}
 
 int main()
 {
@@ -40,7 +11,8 @@ int main()
     int n, m;
     cin >> n >> m; // Na primeira linha, lê a quantidade de vértices e arestas
     cout << "Quantidade de vértices: " << n << endl;
-    cout << "Quantidade de arestas: " << m << endl;
+    cout << "Quantidade de arestas: " << m << endl
+         << endl;
 
     Graph g(n);
 
@@ -51,14 +23,15 @@ int main()
         g.addEdge(v, w);
     }
 
-    dfs(g);
+    int connected_components = dfs(g);
 
     for (int v = 0; v < n; v++)
     {
-        cout << "pre[" << v << "] = " << g.pre[v] << " | ";
+        cout << "pre[" << v << "] = " << g.pre[v] << endl;
     }
 
     cout << endl;
+    cout << "Quantidade de componentes conexas: " << connected_components << endl;
 
     return 0;
 }

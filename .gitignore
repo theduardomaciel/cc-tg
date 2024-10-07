@@ -1,4 +1,7 @@
-# Ignorar todos os arquivos com a extensão .bin
+# Ignorar todos os arquivos com as seguintes extensões
 *.bin
+*.out
 
+# Ignorar todos os arquivos presentes nas seguintes pastas
 bin/
+bild/
