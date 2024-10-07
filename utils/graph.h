@@ -12,6 +12,7 @@ public:
     {
         adj = vector<vector<int>>(n, vector<int>());
         pre = vector<int>(n, -1);    // Inicializa o vetor pre com -1 em todas as posições
+        post = vector<int>(n, -1);   // Inicializa o vetor post com -1 em todas as posições
         dist = vector<int>(n, -1);   // Inicializa o vetor dist com -1 em todas as posições
         parent = vector<int>(n, -1); // Inicializa o vetor parent com -1 em todas as posições
     }
@@ -27,6 +28,9 @@ public:
 
     // Vetor de pré-ordem (numeração dos vértices)
     vector<int> pre;
+
+    // Vetor de pós-ordem (numeração dos vértices)
+    vector<int> post;
 
     // Vetor de distâncias (distância do vértice inicial a cada vértice)
     vector<int> dist;
