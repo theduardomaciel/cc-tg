@@ -1,8 +1,3 @@
-#include <queue>
-#include "utils/graph.h"
-
-using namespace std;
-
 /*
     DFS (Depth-First Search)
 
@@ -36,42 +31,28 @@ using namespace std;
 #ifndef DFS_H
 #define DFS_H
 
-void dfs_recursive(Graph &g, int v)
-{
-    g.pre[v] = g.counter++;
+#include <queue>
+#include "utils/graph.h"
 
-    // adj[v] = vetor de adjacência do vértice v
-    for (int w : g.adj[v])
-    {
-        if (g.pre[w] == -1)
-        {
-            dfs_recursive(g, w);
-        }
-        else if (w != g.parent[v])
-        {
-            cout << "Ciclo encontrado -> " << "Aresta de retorno: " << v << " -> " << w << endl;
-        }
-    }
-    // ou: for(int i = 0; i < adj[v].size(); i++) { int w = adj[v][i]; }
-}
+/**
+ * @brief Helper function for performing a depth-first search (DFS) on the given graph starting from the specified vertex.
+ *
+ * This function is called recursively to traverse the graph in a depth-first manner, visiting all vertices reachable from the starting vertex.
+ *
+ * @param g The graph to be traversed.
+ * @param v The starting vertex for the DFS traversal.
+ */
+void dfs_recursive(Graph &g, int v);
 
-// O & é uma referência, ou seja, é um ponteiro que não precisa ser desreferenciado
-// É um ponteiro mais elegante (não precisa passar o operador ->)
-int dfs(Graph &g)
-{
-    int connected_components = 0; // Armazena a quantidade de componentes conexas
-
-    int n = g.adj.size();
-    for (int v = 0; v < n; v++)
-    {
-        if (g.pre[v] == -1)
-        {
-            connected_components++;
-            dfs_recursive(g, v);
-        }
-    }
-
-    return connected_components;
-}
+/**
+ * @brief Performs a depth-first search (DFS) on the given graph.
+ *
+ * This function initiates a DFS traversal starting from a specified node in the graph.
+ * It explores as far as possible along each branch before backtracking.
+ *
+ * @param g Reference to the graph object on which DFS is to be performed.
+ * @return An integer indicating the result of the DFS operation.
+ */
+int dfs(Graph &g);
 
 #endif

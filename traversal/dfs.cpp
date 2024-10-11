@@ -1,37 +1,40 @@
-#include <iostream>
 #include "dfs.h"
 
-using namespace std;
-
-int main()
+void dfs_recursive(Graph &g, int v)
 {
-    // No Windows, é necessário definir a codificação para UTF-8
-    setlocale(LC_ALL, ".utf8");
+    g.pre[v] = g.counter++; // Marca o vértice v como visitado e atribui a pré-ordem
 
-    int n, m;
-    cin >> n >> m; // Na primeira linha, lê a quantidade de vértices e arestas
-    cout << "Quantidade de vértices: " << n << endl;
-    cout << "Quantidade de arestas: " << m << endl
-         << endl;
-
-    Graph g(n);
-
-    int v, w;
-    for (int c = 0; c < m; c++)
+    for (int w : g.adj[v]) // Para cada vértice w vizinho a v
     {
-        cin >> v >> w; // Lê as arestas dispostas nas linhas do arquivo de entrada no formato v w
-        g.addEdge(v, w);
+        if (g.pre[w] == -1)
+        {
+            g.parent[w] = v;
+            dfs_recursive(g, w);
+        }
+        /* else if (w != g.parent[v])
+        {
+            cout << "Ciclo encontrado -> " << "Aresta de retorno: " << v << " -> " << w << endl;
+        } */
     }
 
-    int connected_components = dfs(g);
+    g.post[v] = g.counter++; // Atribui a pós-ordem
+}
+
+// O & é uma referência, ou seja, é um ponteiro que não precisa ser desreferenciado
+// É um ponteiro mais elegante (não precisa passar o operador ->)
+int dfs(Graph &g)
+{
+    int connected_components = 0; // Armazena a quantidade de componentes conexas
+    int n = g.adj.size();
 
     for (int v = 0; v < n; v++)
     {
-        cout << "pre[" << v << "] = " << g.pre[v] << endl;
+        if (g.pre[v] == -1)
+        {
+            connected_components++;
+            dfs_recursive(g, v);
+        }
     }
 
-    cout << endl;
-    cout << "Quantidade de componentes conexas: " << connected_components << endl;
-
-    return 0;
+    return connected_components;
 }

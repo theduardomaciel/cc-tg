@@ -6,10 +6,14 @@ CXXFLAGS = -Wall -std=c++11
 
 # Diretórios
 PROJECT_ROOT = ../
+UTILS_DIR = $(PROJECT_ROOT)utils
+# TRAVERSAL_DIR = $(PROJECT_ROOT)traversal
+
+# Inclui os diretórios de cabeçalhos se necessário
 INCLUDES = -I$(PROJECT_ROOT)
 
 # Arquivos Fonte
-SOURCES = kosaraju.cpp
+SOURCES = kosaraju.cpp $(wildcard $(UTILS_DIR)/*.cpp) $(PROJECT_ROOT)traversal/dfs.cpp
 
 # Arquivo Executável
 EXEC = kosaraju.out
@@ -22,7 +26,7 @@ $(EXEC): $(SOURCES)
 
 # Limpeza
 clean:
-	rm -f $(OBJECTS) $(EXEC)
+	rm -f $(EXEC)
 
 # Execução
 run: $(EXEC)

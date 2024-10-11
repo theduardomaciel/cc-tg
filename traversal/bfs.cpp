@@ -1,70 +1,29 @@
-#include <iostream>
 #include "bfs.h"
 
-using namespace std;
-
-void print_path(Graph &g, int v)
+void bfs(Graph &g, int v0)
 {
-    if (g.parent[v] == -1)
+    queue<int> q;
+    q.push(v0);
+
+    g.dist[v0] = 0;
+    g.pre[v0] = g.counter++;
+
+    while (!q.empty())
     {
-        cout << v;
+        int v = q.front(); // 1o vértice da fila
+        q.pop();           // Remove o vértice da fila
+
+        for (size_t i = 0; i < g.adj[v].size(); i++) // Percorre os vizinhos ()vértices adjacentes) a v
+        {
+            int w = g.adj[v][i];
+            if (g.pre[w] == -1)
+            {
+                g.pre[w] = g.counter++; // Numera o vértice w
+                q.push(w);              // Adiciona w à fila
+
+                g.dist[w] = g.dist[v] + 1; // Distância de w ao vértice inicial
+                g.parent[w] = v;           // Vértice pai de w
+            }
+        }
     }
-    else
-    {
-        print_path(g, g.parent[v]);
-        cout << " -> " << v;
-    }
-}
-
-int main()
-{
-    // No Windows, é necessário definir a codificação para UTF-8
-    setlocale(LC_ALL, ".utf8");
-
-    int n, m;
-    cin >> n >> m;
-    cout << "Quantidade de vértices: " << n << endl;
-    cout << "Quantidade de arestas: " << m << endl
-         << endl;
-
-    Graph g(n);
-
-    int v, w;
-    for (int c = 0; c < m; c++)
-    {
-        cin >> v >> w; // Lê as arestas no formato v w
-        g.addEdge(v, w);
-    }
-
-    bfs(g, 0);
-
-    // Padrão: imprime a numeração dos vértices
-    cout << "Numeração dos vértices:" << endl;
-    for (int v = 0; v < n; v++)
-    {
-        cout << "pre[" << v << "] = " << g.pre[v] << " | ";
-    }
-
-    cout << endl
-         << endl;
-
-    // Problema 1: Calcule a distância do vértice v0 para todos os outros vértices do grafo
-    cout << "Distância do vértice 0 para todos os outros vértices:" << endl;
-    for (int v = 0; v < n; v++)
-    {
-        cout << "   dist[" << v << "] = " << g.dist[v] << endl;
-    }
-
-    cout << endl;
-
-    // Problema 2: Obtenha o caminho mínimo de v0 para todos os outros vértices do grafo
-    cout << "Caminho mínimo do vértice 0 para todos os outros vértices:" << endl;
-    for (int v = 0; v < n; v++)
-    {
-        cout << "   path[" << v << "] = ";
-        print_path(g, v); // Imprime o caminho de v0 a v de forma reversa
-        cout << endl;
-    }
-
-    return 0;
 }
