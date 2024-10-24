@@ -1,0 +1,26 @@
+{
+    "configurations": [
+        {
+            "name": "debug_algorithm",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/kosaraju/kosaraju.out",
+            "args": [
+                "-f",
+                "graph.dat"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "MIMode": "gdb",
+            "preLaunchTask": "Build Makefile",
+            "setupCommands": [
+                {
+                    "description": "Debugar algoritmo",
+                    "text": "Teste",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}

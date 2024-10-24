@@ -1,28 +1,22 @@
 {
+    "version": "2.0.0",
     "tasks": [
         {
-            "type": "cppbuild",
-            "label": "C/C++: gcc.exe arquivo de build ativo",
-            "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe",
-            "args": [
-                "-fdiagnostics-color=always",
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
-            ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
+            "label": "Build Makefile",
+            "type": "shell",
+            "command": "make",
+            "args": [],
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "detail": "Tarefa gerada pelo Depurador."
+            "options": {
+                "cwd": "${workspaceFolder}/kosaraju"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "detail": "Generated task to build using make."
         }
-    ],
-    "version": "2.0.0"
+    ]
 }

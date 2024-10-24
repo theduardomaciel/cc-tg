@@ -1,40 +1,37 @@
-#include "dfs.h"
+#include <stack>
+#include "traversal/dfs.h"
 
-void dfs_recursive(Graph &g, int v)
+void dfs_general(Graph &g, int v, vector<bool> &visited, const vector<vector<int>> &adj, stack<int> *Stack)
 {
-    g.pre[v] = g.counter++; // Marca o vértice v como visitado e atribui a pré-ordem
+    // Marca o vértice atual como visitado
+    visited[v] = true;
 
-    for (int w : g.adj[v]) // Para cada vértice w vizinho a v
+    // Percorre todos os vizinhos do vértice v na lista de adjacência fornecida
+    for (int w : adj[v])
     {
-        if (g.pre[w] == -1)
+        if (!visited[w])
         {
-            g.parent[w] = v;
-            dfs_recursive(g, w);
+            dfs_general(g, w, visited, adj, Stack);
         }
-        /* else if (w != g.parent[v])
-        {
-            cout << "Ciclo encontrado -> " << "Aresta de retorno: " << v << " -> " << w << endl;
-        } */
     }
 
-    g.post[v] = g.counter++; // Atribui a pós-ordem
+    // Se for passado um ponteiro para a Stack, empilhamos o vértice após finalizar a DFS
+    if (Stack != nullptr)
+    {
+        Stack->push(v);
+    }
 }
 
-// O & é uma referência, ou seja, é um ponteiro que não precisa ser desreferenciado
-// É um ponteiro mais elegante (não precisa passar o operador ->)
-int dfs(Graph &g)
+void dfs(Graph &g, const vector<vector<int>> &adj, vector<bool> &visited, stack<int> *Stack)
 {
-    int connected_components = 0; // Armazena a quantidade de componentes conexas
-    int n = g.adj.size();
+    int n = g.vertices_amount();
 
+    // Realiza a DFS em todos os vértices não visitados
     for (int v = 0; v < n; v++)
     {
-        if (g.pre[v] == -1)
+        if (!visited[v])
         {
-            connected_components++;
-            dfs_recursive(g, v);
+            dfs_general(g, v, visited, adj, Stack);
         }
     }
-
-    return connected_components;
 }

@@ -33,7 +33,7 @@ int main()
     for (int c = 0; c < m; c++)
     {
         cin >> v >> w; // Lê as arestas no formato v w
-        g.addEdge(v, w);
+        g.add_edge(v, w);
     }
 
     bfs(g, 0);

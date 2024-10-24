@@ -1,37 +1,7 @@
-/*
-    DFS (Depth-First Search)
-
-    * Parâmetros:
-        - g: grafo
-
-    * Estrutura de dados: Utiliza recursão para percorrer o grafo a partir do vértice v0
-
-    * Pseudocódigo:
-        - Para cada vértice v do grafo:
-            - Se v não foi visitado:
-                - Chama a função dfs_recursive(g, v)
-
-        - Função dfs_recursive(g, v):
-            - Marca o vértice v como visitado
-            - Para cada vértice w adjacente a v:
-                - Se w não foi visitado:
-                    - Chama a função dfs_recursive(g, w)
-
-    * Complexidade: O(V + E), onde V é o número de vértices e E é o número de arestas
-        1. Cada vértice é visitado apenas uma vez, pois só pode ser visitado uma vez — O(V)
-        2. Cada vez que um vértice é visitado, todos os seus k vizinhos são explorados e, portanto, depois que todos os vértices são visitados, acabamos examinando todas as E arestas — (O(E) como o número total de vizinhos de cada vértice [E]).
-
-    * Aplicações:
-        - Detectar ciclos em grafos não direcionados,
-        - Detectar ciclos em grafos direcionados,
-        - Encontrar componentes fortemente conectados (SCCs) em grafos direcionados,
-        - Encontrar pontes e pontos de articulação em grafos não direcionados,
-*/
-
 #ifndef DFS_H
 #define DFS_H
 
-#include <queue>
+#include <vector>
 #include "utils/graph.h"
 
 /**
@@ -41,18 +11,22 @@
  *
  * @param g The graph to be traversed.
  * @param v The starting vertex for the DFS traversal.
+ * @param visited A boolean array that keeps track of visited nodes.
+ * @param adj The adjacency list to be used (either adj_out or adj_in).
+ * @param Stack A stack to store vertices by their finishing order (for Kosaraju's algorithm).
  */
-void dfs_recursive(Graph &g, int v);
+void dfs_general(Graph &g, int v, vector<bool> &visited, const vector<vector<int>> &adj, stack<int> *Stack = nullptr);
 
 /**
- * @brief Performs a depth-first search (DFS) on the given graph.
+ * @brief Performs a depth-first search (DFS) for Kosaraju's algorithm.
  *
- * This function initiates a DFS traversal starting from a specified node in the graph.
- * It explores as far as possible along each branch before backtracking.
+ * This function initiates a DFS traversal on a graph using the provided adjacency list.
  *
- * @param g Reference to the graph object on which DFS is to be performed.
- * @return An integer indicating the result of the DFS operation.
+ * @param g The graph object on which DFS is to be performed.
+ * @param adj The adjacency list to use for traversal (either adj_out or adj_in).
+ * @param visited A boolean array indicating whether a node has been visited.
+ * @param Stack (Optional) Stack to store the order of completion of each vertex.
  */
-int dfs(Graph &g);
+void dfs(Graph &g, const vector<vector<int>> &adj, vector<bool> &visited, stack<int> *Stack = nullptr);
 
 #endif

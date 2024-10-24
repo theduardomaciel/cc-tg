@@ -20,7 +20,7 @@ int main()
     for (int c = 0; c < m; c++)
     {
         cin >> v >> w; // Lê as arestas dispostas nas linhas do arquivo de entrada no formato v w
-        g.addEdge(v, w);
+        g.add_edge(v, w);
     }
 
     int connected_components = dfs(g);

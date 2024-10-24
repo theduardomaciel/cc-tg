@@ -22,7 +22,7 @@ EXEC = kosaraju.out
 all: $(EXEC)
 
 $(EXEC): $(SOURCES)
-	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SOURCES) -o $(EXEC)
+	$(CXX) $(CXXFLAGS) $(INCLUDES) $(SOURCES) -o $(EXEC) -g
 
 # Limpeza
 clean:
