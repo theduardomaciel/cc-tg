@@ -36,24 +36,36 @@ Graph read_graph(string filename)
 
 void kosaraju(Graph &g)
 {
-    stack<int> Stack;
+    stack<int> aux_stack;
+
+    // Função pos para empilhar o vértice após a primeira DFS
+    auto pos_fill_stack = [&aux_stack](int v)
+    {
+        aux_stack.push(v);
+    };
 
     // Passo 1: Fazer DFS no grafo original para preencher a pilha
-    dfs(g, g.adj_out, &Stack);
+    dfs(g, g.adj_out, nullptr, pos_fill_stack);
 
     // Resetar as marcações de pré-ordem (pre) para a segunda DFS
     fill(g.pre.begin(), g.pre.end(), -1);
 
-    // Passo 2: Fazer DFS no grafo transposto (usando adj_in) para encontrar SCCs
-    while (!Stack.empty())
+    // Função pre para exibir componentes fortemente conectados
+    auto pre_print_scc = [](int v)
     {
-        int v = Stack.top();
-        Stack.pop();
+        cout << v << " ";
+    };
+
+    // Passo 2: Fazer DFS no grafo transposto (usando adj_in) para encontrar SCCs
+    while (!aux_stack.empty())
+    {
+        int v = aux_stack.top();
+        aux_stack.pop();
 
         if (g.pre[v] == -1)
         {
-            dfs_recursion(g, v, g.adj_in, nullptr); // Executa DFS no grafo transposto
-            cout << endl;                           // Finaliza o componente fortemente conectado
+            dfs_recursion(g, v, g.adj_in, pre_print_scc, nullptr); // Executa DFS no grafo transposto
+            cout << endl;                                          // Finaliza o componente fortemente conectado
         }
     }
 }
