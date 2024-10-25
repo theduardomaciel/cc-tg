@@ -1,37 +1,42 @@
 #include <stack>
+#include <iostream>
+
 #include "traversal/dfs.h"
 
-void dfs_general(Graph &g, int v, vector<bool> &visited, const vector<vector<int>> &adj, stack<int> *Stack)
+void dfs_recursion(Graph &g, int v, const vector<vector<int>> &adj, stack<int> *Stack)
 {
-    // Marca o vértice atual como visitado
-    visited[v] = true;
+    g.pre[v] = g.counter++;
 
-    // Percorre todos os vizinhos do vértice v na lista de adjacência fornecida
+    if (Stack == nullptr)
+    {
+        cout << v << " "; // Exibe o vértice sendo visitado (para depuração ou visualização)
+    }
+
     for (int w : adj[v])
     {
-        if (!visited[w])
+        if (g.pre[w] == -1)
         {
-            dfs_general(g, w, visited, adj, Stack);
+            dfs_recursion(g, w, adj, Stack);
         }
     }
 
-    // Se for passado um ponteiro para a Stack, empilhamos o vértice após finalizar a DFS
+    g.post[v] = g.counter++;
+
+    // Se estamos preenchendo a pilha, empilhamos após a finalização do vértice
     if (Stack != nullptr)
     {
         Stack->push(v);
     }
 }
 
-void dfs(Graph &g, const vector<vector<int>> &adj, vector<bool> &visited, stack<int> *Stack)
+// Função DFS principal usando dfs_recursion
+void dfs(Graph &g, const vector<vector<int>> &adj, stack<int> *Stack)
 {
-    int n = g.vertices_amount();
-
-    // Realiza a DFS em todos os vértices não visitados
-    for (int v = 0; v < n; v++)
+    for (int i = 1; i < g.get_vertices_amount(); i++)
     {
-        if (!visited[v])
+        if (g.pre[i] == -1)
         {
-            dfs_general(g, v, visited, adj, Stack);
+            dfs_recursion(g, i, adj, Stack);
         }
     }
 }

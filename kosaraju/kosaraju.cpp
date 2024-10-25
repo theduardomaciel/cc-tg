@@ -2,7 +2,8 @@
 #include <fstream>
 #include <stack>
 #include <vector>
-#include "traversal/dfs.h" // Inclui o algoritmo de DFS
+
+#include "traversal/dfs.h"
 
 using namespace std;
 
@@ -33,70 +34,26 @@ Graph read_graph(string filename)
     return g;
 }
 
-// Realiza uma DFS normal no grafo e preenche a pilha com a ordem de término
-void fill_order(Graph &g, int v, vector<bool> &visited, stack<int> &Stack)
-{
-    visited[v] = true; // Marca o vértice atual como visitado
-
-    // Visita todos os vizinhos de saída (adj+)
-    for (int w : g.get_adj_out(v))
-    {
-        if (!visited[w])
-        {
-            fill_order(g, w, visited, Stack);
-        }
-    }
-
-    // Após visitar todos os vizinhos, empilha o vértice (pós-ordem)
-    Stack.push(v);
-}
-
-// Realiza uma DFS na direção inversa (usando adj-)
-void dfs_scc(Graph &g, int v, vector<bool> &visited)
-{
-    visited[v] = true;
-    cout << v << " "; // Exibe ou armazena os vértices da SCC
-
-    // Visita todos os vizinhos de entrada (adj-)
-    for (int w : g.get_adj_in(v))
-    {
-        if (!visited[w])
-        {
-            dfs_scc(g, w, visited);
-        }
-    }
-}
-
 void kosaraju(Graph &g)
 {
     stack<int> Stack;
-    int n = g.vertices_amount();
-    vector<bool> visited(n, false);
 
-    // Passo 1: Realiza uma DFS no grafo original (usando adj_out) e preenche a pilha com a ordem de finalização
-    for (int i = 0; i < n; i++)
-    {
-        if (!visited[i])
-        {
-            fill_order(g, i, visited, Stack);
-        }
-    }
+    // Passo 1: Fazer DFS no grafo original para preencher a pilha
+    dfs(g, g.adj_out, &Stack);
 
-    // Reseta o vetor de visitados para a segunda DFS
-    fill(visited.begin(), visited.end(), false);
+    // Resetar as marcações de pré-ordem (pre) para a segunda DFS
+    fill(g.pre.begin(), g.pre.end(), -1);
 
-    // Passo 2: Realiza uma DFS no grafo transposto (usando adj_in), na ordem inversa da pilha
+    // Passo 2: Fazer DFS no grafo transposto (usando adj_in) para encontrar SCCs
     while (!Stack.empty())
     {
         int v = Stack.top();
         Stack.pop();
 
-        // Se o vértice ainda não foi visitado, é uma nova SCC
-        if (!visited[v])
+        if (g.pre[v] == -1)
         {
-            cout << "SCC: ";
-            dfs_scc(g, v, visited); // Chama a DFS no grafo transposto a partir do vértice v
-            cout << endl;
+            dfs_recursion(g, v, g.adj_in, nullptr); // Executa DFS no grafo transposto
+            cout << endl;                           // Finaliza o componente fortemente conectado
         }
     }
 }

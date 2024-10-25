@@ -13,10 +13,8 @@ public:
     // Lista de adjacência para vizinhos de entrada (adj-)
     vector<vector<int>> adj_in;
 
-    // Vetor de pré-ordem (numeração dos vértices)
+    // Vetore de numeração dos vértices (pré-ordem e pós-ordem)
     vector<int> pre;
-
-    // Vetor de pós-ordem (numeração dos vértices)
     vector<int> post;
 
     // Vetor de distâncias (distância do vértice inicial a cada vértice)
@@ -46,7 +44,7 @@ public:
     }
 
     // Retorna o número de vértices no grafo
-    int vertices_amount() const
+    int get_vertices_amount() const
     {
         return adj_out.size();
     }
