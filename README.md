@@ -7,13 +7,13 @@
 </picture>
 
 Neste repositório, você encontrará implementações de diversos algoritmos de grafos com foco em eficiência e precisão.  
-Entre os algoritmos abordados estão **DFS (Depth-First Search)**, **BFS (Breadth-First Search)**, algoritmos para **componentes fortemente conexos** (como Kosaraju) e algoritmos de **ordenação topológica**.
+Entre os algoritmos abordados estão **DFS (Depth-First Search)**, **BFS (Breadth-First Search)**, algoritmos para **componentes fortemente conexos** (como Kosaraju), **Árvore Geradora Mínima** (Prim e Kruskal) e **Caminhos Mínimos** (Dijkstra).
 
-Cada algoritmo foi projetado para fins educacionais e acompanha testes robustos para garantir seu funcionamento.
+Este projeto prático foi desenvolvido como requisito para a disciplina de **Teoria dos Grafos** na **Universidade Federal de Alagoas** (UFAL), com o objetivo de consolidar conceitos teóricos por meio de implementações práticas e testes robustos que garantem a corretude dos algoritmos em diferentes cenários.
 
 ## 🧪 Testes
 
-Para testar os algoritmos utilizando a bateria `Bat1`, siga as instruções abaixo.  
+Para testar os algoritmos utilizando a bateria `Bat1`, desenvolvida pelo [professor Rian](https://ic.ufal.br/professor/rian/), siga as instruções abaixo.  
 **Este ambiente requer um sistema Linux** (distribuições Linux nativas ou o WSL no Windows funcionam adequadamente).
 
 ### ⚙️ Pré-requisitos
