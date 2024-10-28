@@ -1,8 +1,3 @@
-#include <queue>
-#include "utils/graph.h"
-
-using namespace std;
-
 /*
     BFS (Breadth-First Search)
 
@@ -39,6 +34,9 @@ using namespace std;
 
 #ifndef BFS_H
 #define BFS_H
+
+#include <queue>
+#include "utils/graph.h"
 
 /**
  * @brief Performs a breadth-first search (BFS) on the given graph starting from the specified vertex.

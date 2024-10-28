@@ -1,4 +1,4 @@
-#include "bfs.h"
+#include "traversal/bfs.h"
 
 void bfs(Graph &g, int v0)
 {
@@ -13,9 +13,9 @@ void bfs(Graph &g, int v0)
         int v = q.front(); // 1o vértice da fila
         q.pop();           // Remove o vértice da fila
 
-        for (size_t i = 0; i < g.adj[v].size(); i++) // Percorre os vizinhos ()vértices adjacentes) a v
+        for (size_t i = 0; i < g.adj_out[v].size(); i++) // Percorre os vizinhos (vértices adjacentes) a v
         {
-            int w = g.adj[v][i];
+            int w = g.adj_out[v][i];
             if (g.pre[w] == -1)
             {
                 g.pre[w] = g.counter++; // Numera o vértice w

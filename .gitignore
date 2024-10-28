@@ -1,6 +1,6 @@
 # Ignorar todos os arquivos com as seguintes extensões
 *.bin
-*.out
+*.bin
 
 # Ignorar todos os arquivos presentes nas seguintes pastas
 bin/

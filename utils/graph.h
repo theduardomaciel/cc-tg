@@ -2,6 +2,7 @@
 #define GRAPH_H
 
 #include <vector>
+#include <limits> // Para definir valores máximos
 using namespace std;
 
 class Graph
@@ -34,9 +35,28 @@ public:
     }
 
     // Retorna o número de vértices no grafo
-    int get_vertices_amount() const
+    int size() const
     {
         return adj_out.size();
+    }
+};
+
+class WeightedGraph : public Graph
+{
+public:
+    vector<vector<int>> weights; // Matriz de pesos das arestas
+
+    // Construtor: inicializa o grafo com n vértices
+    WeightedGraph(int n)
+        : Graph(n), weights(n + 1, vector<int>(n + 1, -1)) {}
+
+    // Adiciona aresta de v para w com peso p
+    void add_edge(int v, int w, int p);
+
+    // Retorna o peso da aresta de v para w
+    int get_weight(int v, int w) const
+    {
+        return weights[v][w];
     }
 };
 

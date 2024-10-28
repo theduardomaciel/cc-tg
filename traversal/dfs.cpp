@@ -26,7 +26,7 @@ void dfs_recursion(Graph &g, int v, const vector<vector<int>> &adj, const functi
 // Função DFS principal usando dfs_recursion
 void dfs(Graph &g, const vector<vector<int>> &adj, const function<void(int)> &pre, const function<void(int)> &pos)
 {
-    for (int i = 1; i < g.get_vertices_amount(); i++)
+    for (int i = 1; i < g.size(); i++)
     {
         if (g.pre[i] == -1)
         {

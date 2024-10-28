@@ -16,7 +16,7 @@ INCLUDES = -I$(PROJECT_ROOT)
 SOURCES = kosaraju.cpp $(wildcard $(UTILS_DIR)/*.cpp) $(PROJECT_ROOT)traversal/dfs.cpp
 
 # Arquivo Executável
-EXEC = kosaraju.out
+EXEC = kosaraju.bin
 
 # Regras de Compilação
 all: $(EXEC)
