@@ -19,19 +19,19 @@ public:
     // Construtor: inicializa o grafo com n vértices
     Graph(int n) : adj_out(n + 1), adj_in(n + 1), pre(n + 1, -1), post(n + 1, -1), dist(n + 1, -1), parent(n + 1, -1) {}
 
-    // Adiciona aresta de v para w
-    void add_edge(int v, int w);
+    // Adiciona aresta de u para v
+    void add_edge(int u, int v);
 
     // Retorna a lista de adjacência de saída de um vértice (adj+)
-    const vector<int> &get_adj_out(int v) const
+    const vector<int> &get_adj_out(int u) const
     {
-        return adj_out[v];
+        return adj_out[u];
     }
 
     // Retorna a lista de adjacência de entrada de um vértice (adj-)
-    const vector<int> &get_adj_in(int v) const
+    const vector<int> &get_adj_in(int u) const
     {
-        return adj_in[v];
+        return adj_in[u];
     }
 
     // Retorna o número de vértices no grafo
@@ -41,23 +41,18 @@ public:
     }
 };
 
+typedef pair<int, int> int_pair;
+
 class WeightedGraph : public Graph
 {
 public:
-    vector<vector<int>> weights; // Matriz de pesos das arestas
+    vector<vector<int_pair>> adj; // Lista de adjacência para vizinhos de saída
 
     // Construtor: inicializa o grafo com n vértices
-    WeightedGraph(int n)
-        : Graph(n), weights(n + 1, vector<int>(n + 1, -1)) {}
+    WeightedGraph(int n) : Graph(n), adj(n + 1) {} // Redimensiona `adj` para ter `n + 1` listas de adjacência
 
-    // Adiciona aresta de v para w com peso p
-    void add_edge(int v, int w, int p);
-
-    // Retorna o peso da aresta de v para w
-    int get_weight(int v, int w) const
-    {
-        return weights[v][w];
-    }
+    // Adiciona aresta de u para v com peso p
+    void add_edge(int u, int v, int weight);
 };
 
 #endif

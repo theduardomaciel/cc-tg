@@ -3,16 +3,16 @@ using namespace std;
 
 #include "graph.h"
 
-void Graph::add_edge(int v, int w)
+void Graph::add_edge(int u, int v)
 {
-    // cout << "Adicionando aresta " << v << " -> " << w << endl;
-    adj_out[v].push_back(w); // Adiciona w à lista de saída de v (adj+)
-    adj_in[w].push_back(v);  // Adiciona v à lista de entrada de w (adj-)
+    // cout << "Adicionando aresta " << u << " -> " << v << endl;
+    adj_out[u].push_back(v); // Adiciona v à lista de saída de u (adj+)
+    adj_in[v].push_back(u);  // Adiciona u à lista de entrada de v (adj-)
 }
 
-void WeightedGraph::add_edge(int v, int w, int p)
+void WeightedGraph::add_edge(int u, int v, int weight)
 {
-    // cout << "Adicionando aresta " << v << " -> " << w << " com peso " << p << endl;
-    Graph::add_edge(v, w); // Chama o método add_edge da classe base
-    weights[v][w] = p;     // Armazena o peso da aresta de v para w
+    // cout << "Adicionando aresta " << u << " -> " << v << " com peso " << p << endl;
+    adj[u].push_back({v, weight}); // Adiciona v à lista de saída de u (adj+)
+    adj[v].push_back({u, weight}); // Adiciona u à lista de saída de v (adj+)
 }

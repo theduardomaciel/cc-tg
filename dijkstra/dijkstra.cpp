@@ -6,16 +6,27 @@
 
 using namespace std;
 
-void dijkstra(WeightedGraph &g, int v0)
+/*
+    Em C++ a fila de prioridade é implementada como uma fila de prioridade máxima, ou seja, o maior elemento é sempre o primeiro a ser removido.
+    Para tornar a fila de prioridade uma fila de prioridade mínima, utilizamos algo do seguinte tipo:
+        priority_queue<int, vector<int>, greater<int>> pq;
+            1. O primeiro argumento é o tipo de dado que a fila de prioridade armazenará.
+            2. O segundo argumento é o tipo de contêiner que a fila de prioridade usará para armazenar os elementos.
+            3. O terceiro argumento é o comparador que a fila de prioridade usará para ordenar os elementos.
+
+    É meio bagunçado, mas é assim que funciona.
+*/
+
+void dijkstra(WeightedGraph &g, int source)
 {
     // Inicializa as distâncias como infinito e o nó inicial com distância 0
     g.dist = vector<int>(g.size() + 1, INT_MAX);
-    g.dist[v0] = 0;
-    g.parent[v0] = -1;
 
     // Criamos uma fila de proridade mínima para armazenar os vértices
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-    pq.push({0, v0});
+    priority_queue<int_pair, vector<int_pair>, greater<int_pair>> pq;
+
+    pq.push({0, source});
+    g.dist[source] = 0;
 
     while (!pq.empty())
     {
@@ -23,23 +34,23 @@ void dijkstra(WeightedGraph &g, int v0)
         pq.pop();
 
         // Verifica cada vizinho de u para relaxamento
-        for (int v : g.adj_out[u])
+        for (auto x : g.adj[u])
         {
-            int weight_uv = g.get_weight(u, v);
-            if (weight_uv != -1 && g.dist[v] > g.dist[u] + weight_uv)
+            int v = x.first;
+            int weight = x.second;
+
+            if (g.dist[v] > g.dist[u] + weight)
             {
-                g.dist[v] = g.dist[u] + weight_uv;
-                g.parent[v] = u;
-                pq.push({g.dist[v], v});
+                g.dist[v] = g.dist[u] + weight;
+                pq.push({g.dist[v], v}); // Sobe na heap a distância reduzida
             }
         }
     }
 
     // Imprime o caminho mínimo para cada nó
-    for (int i = 1; i <= g.size(); i++)
+    for (int i = 1; i < g.size(); i++)
     {
-        cout << "Distância mínima de " << v0 << " a " << i << ": "
-             << (g.dist[i] == INT_MAX ? -1 : g.dist[i]) << endl;
+        cout << i << ": " << (g.dist[i] == INT_MAX ? "-1" : to_string(g.dist[i])) << endl;
     }
 }
 
@@ -54,10 +65,10 @@ int main(int argc, char *argv[])
     string filename = argv[2];
     WeightedGraph g = read_weighted_graph(filename);
 
-    int v0 = stoi(argv[4]);
+    int source = stoi(argv[4]);
 
     // Executa o algoritmo de Dijkstra
-    dijkstra(g, v0);
+    dijkstra(g, source);
 
     return 0;
 }

@@ -7,6 +7,13 @@
 
 using namespace std;
 
+void Graph::add_edge(int v, int w)
+{
+    // cout << "Adicionando aresta " << v << " -> " << w << endl;
+    adj_out[v].push_back(w); // Adiciona w à lista de saída de v (adj+)
+    adj_in[w].push_back(v);  // Adiciona v à lista de entrada de w (adj-)
+}
+
 void kosaraju(Graph &g)
 {
     stack<int> aux_stack;
@@ -29,7 +36,7 @@ void kosaraju(Graph &g)
         cout << v << " ";
     };
 
-    // Passo 2: Fazer DFS no grafo transposto (usando adj_in) para encontrar SCCs
+    // Passo 2: Fazer DFS no grafo reverso (usando adj_in) para encontrar as componentes fortemente conexas
     while (!aux_stack.empty())
     {
         int v = aux_stack.top();
@@ -37,7 +44,7 @@ void kosaraju(Graph &g)
 
         if (g.pre[v] == -1)
         {
-            dfs_recursion(g, v, g.adj_in, pre_print_scc, nullptr); // Executa DFS no grafo transposto
+            dfs_recursion(g, v, g.adj_in, pre_print_scc, nullptr); // Executa DFS no grafo reverso
             cout << endl;                                          // Finaliza o componente fortemente conectado
         }
     }
