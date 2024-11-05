@@ -24,7 +24,7 @@ public:
     }
 };
 
-// MST = Minimum Spanning Tree (árvore geradora mínima)
+// DAG = MST = Minimum Spanning Tree (árvore geradora mínima)
 void prim(PrimGraph &g, int start, bool print_tree = false)
 {
     // Criamos uma fila de prioridade mínima para armazenar os vértices
@@ -77,10 +77,17 @@ void prim(PrimGraph &g, int start, bool print_tree = false)
                 cout << "(" << g.prev[i] << "," << i << ")" << " ";
         }
     }
-    cout << endl;
+
+    if (print_tree)
+    {
+        cout << endl;
+    }
+    else
+    {
+        cout << total_cost << endl;
+    }
 
     // cout << "Custo total: " << total_cost << endl;
-    cout << total_cost << endl;
 }
 
 int main(int argc, char *argv[])
