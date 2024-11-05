@@ -1,5 +1,6 @@
 #include <queue>
 #include <limits>
+
 #include "utils/input.h"
 #include "utils/graph.h"
 
@@ -24,7 +25,7 @@ public:
 };
 
 // MST = Minimum Spanning Tree (árvore geradora mínima)
-void prim(PrimGraph &g, int start)
+void prim(PrimGraph &g, int start, bool print_tree = false)
 {
     // Criamos uma fila de prioridade mínima para armazenar os vértices
     priority_queue<int_pair, vector<int_pair>, greater<int_pair>> pq;
@@ -71,36 +72,31 @@ void prim(PrimGraph &g, int start)
         if (g.prev[i] != -1)
         {
             total_cost += g.custo[i];
-            // cout << g.prev[i] << " - " << i << " : " << g.custo[i] << endl;
+
+            if (print_tree)
+                cout << "(" << g.prev[i] << "," << i << ")" << " ";
         }
     }
+    cout << endl;
 
-    cout << total_cost << endl;
     // cout << "Custo total: " << total_cost << endl;
+    cout << total_cost << endl;
 }
 
 int main(int argc, char *argv[])
 {
-    if (argc < 2 || string(argv[1]) != "-f")
+    if (argc < 2)
     {
-        cout << "Uso: " << argv[0] << " -f <arquivo> -i <vértice inicial>" << endl;
+        cout << "Uso: " << argv[0] << " -f <arquivo> -i <vértice inicial> -s <mostrar solução?>" << endl;
         return 1;
     }
 
-    string filename = argv[2];
-    auto prim_graph = read_weighted_graph<PrimGraph>(filename);
+    const char *args_list[] = {"-s", "-i", NULL};
+    InputData data = parse_input(argc, argv, args_list);
 
-    int start;
-    try
-    {
-        start = stoi(argv[4]);
-    }
-    catch (const invalid_argument &e)
-    {
-        start = 1;
-    }
+    auto prim_graph = read_weighted_graph<PrimGraph>(data.in);
 
-    prim(*prim_graph, start);
+    prim(*prim_graph, data.initial_vertex, data.return_answer);
 
     return 0;
 }
