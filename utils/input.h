@@ -7,10 +7,28 @@
 #include <string>
 
 #include <utils/graph.h>
-#include "input.tpp" // Inclui a implementação
 
 using namespace std;
 
+/**
+ * @struct InputData
+ * @brief Structure to hold input data.
+ *
+ * This structure holds various input parameters such as input and output file names,
+ * a flag to indicate whether to return an answer, and the initial vertex for graph operations.
+ *
+ * @var InputData::in
+ * Input file name.
+ *
+ * @var InputData::out
+ * Output file name.
+ *
+ * @var InputData::return_answer
+ * Flag to indicate whether to return an answer.
+ *
+ * @var InputData::initial_vertex
+ * Initial vertex for graph operations.
+ */
 struct InputData
 {
     string in = "";
@@ -19,68 +37,18 @@ struct InputData
     int initial_vertex = 1;
 };
 
-// args_list: lista de argumentos que o algoritmo aceita
-InputData parse_input(int argc, char *argv[], const char *args_list[])
-{
-    InputData data;
-
-    for (int i = 1; i < argc; i++)
-    {
-        if (string(argv[i]).compare("-h") == 0)
-        {
-            cout << "Help:" << endl;
-            cout << "-h: mostra o help" << endl;
-            cout << "-o <arquivo>: redireciona a saida para o 'arquivo'" << endl;
-            cout << "-f <arquivo>: indica o 'arquivo' que contém o grafo de entrada" << endl;
-            for (int j = 0; args_list[j] != NULL; j++)
-            {
-                if (string(args_list[j]).compare("-s") == 0)
-                {
-                    cout << "-s: retorna a resposta do algoritmo" << endl;
-                }
-                else if (string(args_list[j]).compare("-i") == 0)
-                {
-                    cout << "-i <vértice>: indica o 'vértice' inicial" << endl;
-                }
-            }
-            return data;
-        }
-
-        // Verificamos os argumentos padrão
-        if (string(argv[i]) == "-f")
-        {
-            data.in = argv[i + 1];
-        }
-        else if (string(argv[i]) == "-o")
-        {
-            data.out = argv[i + 1];
-        }
-
-        // Verificamos os argumentos específicos por algoritmo
-        for (int j = 0; args_list[j] != NULL; j++)
-        {
-            if (string(argv[i]) == args_list[j])
-            {
-                if (string(argv[i]) == "-s")
-                {
-                    data.return_answer = true;
-                }
-                else if (string(argv[i]) == "-i")
-                {
-                    data.initial_vertex = stoi(argv[i + 1]);
-                }
-            }
-        }
-    }
-
-    if (data.in == "")
-    {
-        cerr << "Erro: nenhum arquivo de entrada foi especificado" << endl;
-        exit(1);
-    }
-
-    return data;
-}
+/**
+ * @brief Parses command-line arguments.
+ *
+ * This function parses the command-line arguments provided to the program and extracts
+ * the input parameters based on the specified argument list.
+ *
+ * @param argc The number of command-line arguments.
+ * @param argv The array of command-line argument strings.
+ * @param args_list The list of expected argument names.
+ * @return InputData The parsed input data.
+ */
+InputData parse_input(int argc, char *argv[], const char *args_list[]);
 
 /**
  * @brief Reads a graph from a file.
@@ -105,5 +73,7 @@ unique_ptr<GraphType> read_graph(const string &filename);
  */
 template <typename GraphType>
 unique_ptr<GraphType> read_weighted_graph(const string &filename);
+
+#include "input.tpp"
 
 #endif

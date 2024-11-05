@@ -12,7 +12,7 @@ UTILS_DIR = $(PROJECT_ROOT)utils
 INCLUDES = -I$(PROJECT_ROOT)
 
 # Arquivos Fonte
-SOURCES = kosaraju.cpp $(wildcard $(UTILS_DIR)/*.cpp) ./traversal/dfs.cpp
+SOURCES = kosaraju.cpp $(wildcard $(UTILS_DIR)/*.cpp) ./source/traversal/dfs.cpp
 
 # Arquivo Executável
 EXEC = kosaraju.bin

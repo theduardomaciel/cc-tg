@@ -29,7 +29,7 @@
 #include <vector>
 #include <stack>
 
-#include "kosaraju/graph.h"
+#include "../graph.h"
 
 /**
  * @brief Helper function for performing a depth-first search (DFS) on the given graph starting from the specified vertex.
