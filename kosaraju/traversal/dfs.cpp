@@ -1,6 +1,6 @@
-#include "traversal/dfs.h"
+#include "./dfs.h"
 
-void dfs_recursion(Graph &g, int v, const vector<vector<int>> &adj, const function<void(int)> &pre, const function<void(int)> &pos)
+void dfs_recursion(KosarajuGraph &g, int v, const vector<vector<int>> &adj, const function<void(int)> &pre, const function<void(int)> &pos)
 {
     // Executa a função pre, se definida
     if (pre)
@@ -23,8 +23,7 @@ void dfs_recursion(Graph &g, int v, const vector<vector<int>> &adj, const functi
         pos(v);
 }
 
-// Função DFS principal usando dfs_recursion
-void dfs(Graph &g, const vector<vector<int>> &adj, const function<void(int)> &pre, const function<void(int)> &pos)
+void dfs(KosarajuGraph &g, const vector<vector<int>> &adj, const function<void(int)> &pre, const function<void(int)> &pos)
 {
     for (int i = 1; i < g.size(); i++)
     {

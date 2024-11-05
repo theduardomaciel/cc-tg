@@ -3,22 +3,17 @@
 #include <vector>
 
 #include "utils/input.h"
-#include "traversal/dfs.h"
+#include "./traversal/dfs.h"
 
 using namespace std;
 
-void Graph::add_edge(int v, int w)
-{
-    // cout << "Adicionando aresta " << v << " -> " << w << endl;
-    adj_out[v].push_back(w); // Adiciona w à lista de saída de v (adj+)
-    adj_in[w].push_back(v);  // Adiciona v à lista de entrada de w (adj-)
-}
-
-void kosaraju(Graph &g)
+void kosaraju(KosarajuGraph &g)
 {
     stack<int> aux_stack;
 
-    // Função pos para empilhar o vértice após a primeira DFS
+    cout << "Componentes fortemente conectados:" << endl;
+
+    // Função "pos" para empilhar o vértice após a primeira DFS
     auto pos_fill_stack = [&aux_stack](int v)
     {
         aux_stack.push(v);
@@ -27,10 +22,12 @@ void kosaraju(Graph &g)
     // Passo 1: Fazer DFS no grafo original para preencher a pilha
     dfs(g, g.adj_out, nullptr, pos_fill_stack);
 
-    // Resetar as marcações de pré-ordem (pre) para a segunda DFS
+    cout << "Ordem de visita dos vértices:" << endl;
+
+    // Resetamos as marcações de pré-ordem (pre) para a segunda DFS
     fill(g.pre.begin(), g.pre.end(), -1);
 
-    // Função pre para exibir componentes fortemente conectados
+    // Função "pre" para exibir componentes fortemente conectados
     auto pre_print_scc = [](int v)
     {
         cout << v << " ";
@@ -59,10 +56,10 @@ int main(int argc, char *argv[])
     }
 
     string filename = argv[2];
-    Graph g = read_graph(filename);
+    auto kosaraku_graph = read_graph<KosarajuGraph>(filename);
 
     // Executa o algoritmo de Kosaraju
-    kosaraju(g);
+    kosaraju(*kosaraku_graph);
 
     return 0;
 }

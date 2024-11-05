@@ -2,18 +2,17 @@
 
 # Compilador
 CXX = g++
-CXXFLAGS = -Wall -std=c++11
+CXXFLAGS = -Wall -std=c++14
 
 # Diretórios
 PROJECT_ROOT = ../
 UTILS_DIR = $(PROJECT_ROOT)utils
-# TRAVERSAL_DIR = $(PROJECT_ROOT)traversal
 
 # Inclui os diretórios de cabeçalhos se necessário
 INCLUDES = -I$(PROJECT_ROOT)
 
 # Arquivos Fonte
-SOURCES = kosaraju.cpp $(wildcard $(UTILS_DIR)/*.cpp) $(PROJECT_ROOT)traversal/dfs.cpp
+SOURCES = kosaraju.cpp $(wildcard $(UTILS_DIR)/*.cpp) ./traversal/dfs.cpp
 
 # Arquivo Executável
 EXEC = kosaraju.bin

@@ -2,7 +2,7 @@
 
 # Compilador
 CXX = g++
-CXXFLAGS = -Wall -std=c++11
+CXXFLAGS = -Wall -std=c++14
 
 # Diretórios
 PROJECT_ROOT = ../
@@ -12,7 +12,7 @@ UTILS_DIR = $(PROJECT_ROOT)utils
 INCLUDES = -I$(PROJECT_ROOT)
 
 # Arquivos Fonte
-SOURCES = dijkstra.cpp $(wildcard $(UTILS_DIR)/*.cpp) $(PROJECT_ROOT)traversal/dfs.cpp
+SOURCES = dijkstra.cpp $(wildcard $(UTILS_DIR)/*.cpp)
 
 # Arquivo Executável
 EXEC = dijkstra.bin

@@ -28,7 +28,8 @@
 #include <functional>
 #include <vector>
 #include <stack>
-#include "utils/graph.h"
+
+#include "kosaraju/graph.h"
 
 /**
  * @brief Helper function for performing a depth-first search (DFS) on the given graph starting from the specified vertex.
@@ -40,7 +41,7 @@
  * @param pre The function to be executed before visiting a vertex.
  * @param pos The function to be executed after visiting a vertex.
  */
-void dfs(Graph &g, const vector<vector<int>> &adj, const function<void(int)> &pre, const function<void(int)> &pos);
+void dfs(KosarajuGraph &g, const vector<vector<int>> &adj, const function<void(int)> &pre, const function<void(int)> &pos);
 
 /**
  * @brief Helper function for performing a depth-first search (DFS) on the given graph starting from the specified vertex.
@@ -53,6 +54,6 @@ void dfs(Graph &g, const vector<vector<int>> &adj, const function<void(int)> &pr
  * @param pre The function to be executed before visiting a vertex.
  * @param pos The function to be executed after visiting a vertex.
  */
-void dfs_recursion(Graph &g, int v, const vector<vector<int>> &adj, const function<void(int)> &pre, const function<void(int)> &pos);
+void dfs_recursion(KosarajuGraph &g, int v, const vector<vector<int>> &adj, const function<void(int)> &pre, const function<void(int)> &pos);
 
 #endif

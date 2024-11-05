@@ -44,7 +44,7 @@ A pasta `tests/Bat1` já contém a versão mais recente dos algoritmos. Esse pas
 
 2. **Dê permissão de execução** aos arquivos da bateria de testes e ao(s) algoritmo(s) desejado(s):
     ```bash
-    chmod +x Bat1.sh ordena.sh kosaraju.bin
+    chmod +x Bat1.sh ordena.sh kosaraju.bin agm
     ```
 
 3. **Execute o script de testes** `Bat1.sh` para iniciar a verificação dos algoritmos:

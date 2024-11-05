@@ -4,7 +4,7 @@
             "name": "debug_algorithm",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/dijkstra/dijkstra.bin",
+            "program": "${workspaceFolder}/kosaraju/kosaraju.bin",
             "args": [
                 "-f",
                 "graph.dat"
