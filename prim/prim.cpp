@@ -15,7 +15,7 @@ public:
     vector<int> prev;
 
     // Construtor que herda de WeightedGraph
-    PrimGraph(const WeightedGraph &wg) : WeightedGraph(wg) {}
+    PrimGraph(int n) : WeightedGraph(n) {}
 
     void add_edge(int u, int v, int weight)
     {
@@ -92,18 +92,13 @@ void prim(PrimGraph &g, int start, bool print_tree = false)
 
 int main(int argc, char *argv[])
 {
-    if (argc < 2)
-    {
-        cout << "Uso: " << argv[0] << " -f <arquivo> -i <vértice inicial> -s <mostrar solução?>" << endl;
-        return 1;
-    }
-
     const char *args_list[] = {"-s", "-i", NULL};
     InputData data = parse_input(argc, argv, args_list);
 
+    // Lê o grafo ponderado do arquivo de entrada
     auto prim_graph = read_weighted_graph<PrimGraph>(data.in);
 
-    prim(*prim_graph, data.initial_vertex, data.return_answer);
+    prim(*prim_graph, data.initial, data.return_answer);
 
     return 0;
 }

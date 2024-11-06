@@ -7,11 +7,17 @@ using namespace std;
 
 class Graph
 {
+private:
+    bool is_directed;
+
 public:
-    vector<vector<int>> adj_out; // Lista de adjacência para vizinhos de saída
+    vector<vector<int>> adj_out; // Lista de adjacência para vizinhos de saída (adj+)
 
     // Construtor padrão
-    Graph(int n = 0) : adj_out(n + 1) {}
+    Graph(int n = 0, bool directed = true) : adj_out(n + 1)
+    {
+        is_directed = directed;
+    }
 
     // Retorna o número de vértices no grafo
     int size() const
@@ -27,11 +33,17 @@ typedef pair<int, int> int_pair;
 
 class WeightedGraph : public Graph
 {
+private:
+    bool is_directed;
+
 public:
     vector<vector<int_pair>> adj_out;
 
     // Construtor padrão
-    WeightedGraph(int n = 0) : Graph(n), adj_out(n + 1) {}
+    WeightedGraph(int n = 0, bool directed = false) : Graph(n), adj_out(n + 1)
+    {
+        is_directed = directed;
+    }
 
     // Adiciona aresta de u para v com peso p
     void add_edge(int u, int v, int weight);

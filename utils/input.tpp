@@ -1,67 +1,5 @@
 #include "input.h"
 
-InputData parse_input(int argc, char *argv[], const char *args_list[])
-{
-    InputData data;
-
-    for (int i = 1; i < argc; i++)
-    {
-        if (string(argv[i]).compare("-h") == 0)
-        {
-            cout << "Help:" << endl;
-            cout << "-h: mostra o help" << endl;
-            cout << "-o <arquivo>: redireciona a saida para o 'arquivo'" << endl;
-            cout << "-f <arquivo>: indica o 'arquivo' que contém o grafo de entrada" << endl;
-            for (int j = 0; args_list[j] != NULL; j++)
-            {
-                if (string(args_list[j]).compare("-s") == 0)
-                {
-                    cout << "-s: retorna a resposta do algoritmo" << endl;
-                }
-                else if (string(args_list[j]).compare("-i") == 0)
-                {
-                    cout << "-i <vértice>: indica o 'vértice' inicial" << endl;
-                }
-            }
-            return data;
-        }
-
-        // Verificamos os argumentos padrão
-        if (string(argv[i]) == "-f")
-        {
-            data.in = argv[i + 1];
-        }
-        else if (string(argv[i]) == "-o")
-        {
-            data.out = argv[i + 1];
-        }
-
-        // Verificamos os argumentos específicos por algoritmo
-        for (int j = 0; args_list[j] != NULL; j++)
-        {
-            if (string(argv[i]) == args_list[j])
-            {
-                if (string(argv[i]) == "-s")
-                {
-                    data.return_answer = true;
-                }
-                else if (string(argv[i]) == "-i")
-                {
-                    data.initial_vertex = stoi(argv[i + 1]);
-                }
-            }
-        }
-    }
-
-    if (data.in == "")
-    {
-        cerr << "Erro: nenhum arquivo de entrada foi especificado" << endl;
-        exit(1);
-    }
-
-    return data;
-}
-
 template <typename GraphType>
 unique_ptr<GraphType> read_graph(const string &filename)
 {
@@ -118,4 +56,107 @@ unique_ptr<GraphType> read_weighted_graph(const string &filename)
 
     file.close();
     return g;
+}
+
+void show_help(const char *program_name, const char *args_list[] = NULL)
+{
+    cout << "Uso: " << program_name << " -f <arquivo_de_entrada> [opções]" << endl;
+
+    cout << "Opções:" << endl;
+    cout << "-h: mostra esta mensagem de ajuda" << endl;
+    cout << "-f <arquivo>: indica o 'arquivo' que contém o grafo de entrada" << endl;
+    cout << "-o <arquivo>: redireciona a saida para o 'arquivo'" << endl;
+
+    if (args_list == NULL)
+    {
+        exit(1);
+    }
+
+    for (int j = 0; args_list[j] != NULL; j++)
+    {
+        if (string(args_list[j]).compare("-s") == 0)
+        {
+            cout << "-s: retorna a resposta do algoritmo" << endl;
+        }
+        else if (string(args_list[j]).compare("-i") == 0)
+        {
+            cout << "-i <vértice>: indica o 'vértice' inicial" << endl;
+        }
+    }
+
+    exit(1);
+}
+
+InputData parse_input(int argc, char *argv[], const char *args_list[])
+{
+    InputData data;
+
+    for (int i = 1; i < argc; i++)
+    {
+        if (string(argv[i]).compare("-h") == 0)
+        {
+            show_help(argv[0], args_list);
+        }
+
+        // Verificamos os argumentos padrão
+        if (string(argv[i]) == "-f")
+        {
+            if (i + 1 < argc)
+            {
+                data.in = argv[i + 1];
+            }
+            else
+            {
+                cerr << "Erro: argumento esperado após '-f'" << endl;
+                show_help(argv[0], args_list);
+            }
+        }
+        else if (string(argv[i]) == "-o")
+        {
+            if (i + 1 < argc)
+            {
+                data.out = argv[i + 1];
+            }
+            else
+            {
+                cerr << "Erro: argumento esperado após '-o'" << endl;
+                show_help(argv[0], args_list);
+            }
+        }
+
+        // Verificamos os argumentos específicos por algoritmo
+        if (args_list)
+        {
+            for (int j = 0; args_list[j] != NULL; j++)
+            {
+                if (string(argv[i]) == args_list[j])
+                {
+                    if (string(argv[i]) == "-s")
+                    {
+                        data.return_answer = true;
+                    }
+                    else if (string(argv[i]) == "-i")
+                    {
+                        if (i + 1 < argc)
+                        {
+                            data.initial = stoi(argv[i + 1]);
+                        }
+                        else
+                        {
+                            cerr << "Erro: argumento esperado após '-i'" << endl;
+                            show_help(argv[0], args_list);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if (data.in == "")
+    {
+        cerr << "Erro: nenhum arquivo de entrada foi especificado" << endl;
+        show_help(argv[0], args_list);
+    }
+
+    return data;
 }

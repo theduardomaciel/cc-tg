@@ -1,4 +1,4 @@
-# Makefile para Prim
+# Makefile para Bellman
 
 # Compilador
 CXX = g++
@@ -12,10 +12,10 @@ UTILS_DIR = $(PROJECT_ROOT)utils
 INCLUDES = -I$(PROJECT_ROOT)
 
 # Arquivos Fonte
-SOURCES = prim.cpp $(wildcard $(UTILS_DIR)/*.cpp)
+SOURCES = bellman.cpp $(wildcard $(UTILS_DIR)/*.cpp)
 
 # Arquivo Executável
-EXEC = prim.bin
+EXEC = bellman.bin
 
 # Regras de Compilação
 all: $(EXEC)

@@ -64,15 +64,10 @@ void kruskal(WeightedGraph &g, bool print_tree)
 
 int main(int argc, char *argv[])
 {
-    if (argc < 2 || string(argv[1]) != "-f")
-    {
-        cout << "Uso: " << argv[0] << " -f <arquivo>" << endl;
-        return 1;
-    }
-
-    const char *args_list[] = {"-s", "-i", NULL};
+    const char *args_list[] = {"-s", NULL};
     InputData input = parse_input(argc, argv, args_list);
 
+    // Lê o grafo ponderado do arquivo de entrada
     auto kruskal_graph = read_weighted_graph<WeightedGraph>(input.in);
 
     kruskal(*kruskal_graph, input.return_answer);

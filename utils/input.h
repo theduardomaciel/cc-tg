@@ -1,6 +1,7 @@
 #ifndef INPUT_H
 #define INPUT_H
 
+#include <map>
 #include <iostream>
 #include <memory>
 #include <fstream>
@@ -26,7 +27,7 @@ using namespace std;
  * @var InputData::return_answer
  * Flag to indicate whether to return an answer.
  *
- * @var InputData::initial_vertex
+ * @var InputData::initial
  * Initial vertex for graph operations.
  */
 struct InputData
@@ -34,7 +35,7 @@ struct InputData
     string in = "";
     string out = "";
     bool return_answer = false;
-    int initial_vertex = 1;
+    int initial = 1;
 };
 
 /**

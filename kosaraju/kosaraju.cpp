@@ -47,14 +47,10 @@ void kosaraju(KosarajuGraph &g)
 
 int main(int argc, char *argv[])
 {
-    if (argc < 3 || string(argv[1]) != "-f")
-    {
-        cout << "Uso: " << argv[0] << " -f <arquivo>" << endl;
-        return 1;
-    }
+    InputData input = parse_input(argc, argv, NULL);
 
-    string filename = argv[2];
-    auto kosaraku_graph = read_graph<KosarajuGraph>(filename);
+    // Lê o grafo do arquivo de entrada
+    auto kosaraku_graph = read_graph<KosarajuGraph>(input.in);
 
     // Executa o algoritmo de Kosaraju
     kosaraju(*kosaraku_graph);

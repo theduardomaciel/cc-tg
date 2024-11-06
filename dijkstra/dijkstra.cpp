@@ -14,13 +14,14 @@ public:
 
     // Construtor que herda de WeightedGraph
     DijkstraGraph(const WeightedGraph &wg) : WeightedGraph(wg) {}
-    // Poderíamos otimizar da seguinte forma:
-    // DijkstraGraph(int n) : WeightedGraph(n), dist(n + 1, INF), prev(n + 1, -1) {}
+
+    // O construtor poderia ser otimizado da seguinte forma:
+    // DijkstraGraph(int n) : WeightedGraph(n), dist(n + 1, INF) {}
 
     void add_edge(int u, int v, int weight)
     {
-        adj_out[u].push_back({v, weight});
-        adj_out[v].push_back({u, weight});
+        WeightedGraph::add_edge(u, v, weight);
+        WeightedGraph::add_edge(v, u, weight); // Cuidamos de casos não-direcionados
     }
 };
 
@@ -74,29 +75,14 @@ void dijkstra(DijkstraGraph &g, int start)
 
 int main(int argc, char *argv[])
 {
-    if (argc < 2 || string(argv[1]) != "-f")
-    {
-        cout << "Uso: " << argv[0] << " -f <arquivo> -i <vértice inicial>" << endl;
-        return 1;
-    }
+    const char *args_list[] = {"-i", NULL};
+    InputData input = parse_input(argc, argv, args_list);
 
-    string filename = argv[2];
-    auto dijkstra_graph = read_weighted_graph<DijkstraGraph>(filename);
-
-    int start;
-    try
-    {
-        start = stoi(argv[4]);
-    }
-    catch (const invalid_argument &e)
-    {
-        /* cout << "Erro: vértice inicial inválido." << endl;
-        return 1; */
-        start = 1;
-    }
+    // Lê o grafo de entrada
+    auto dijkstra_graph = read_weighted_graph<DijkstraGraph>(input.in);
 
     // Executa o algoritmo de Dijkstra
-    dijkstra(*dijkstra_graph, start);
+    dijkstra(*dijkstra_graph, input.initial);
 
     return 0;
 }
