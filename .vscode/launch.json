@@ -4,10 +4,12 @@
             "name": "debug_algorithm",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/kosaraju/kosaraju.bin",
+            "program": "${workspaceFolder}/bellman/bellman.bin",
             "args": [
                 "-f",
-                "graph.dat"
+                "graph.dat",
+                "-i",
+                "1"
             ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

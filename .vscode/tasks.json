@@ -11,7 +11,7 @@
                 "isDefault": true
             },
             "options": {
-                "cwd": "${workspaceFolder}/kosaraju"
+                "cwd": "${workspaceFolder}/bellman"
             },
             "problemMatcher": [
                 "$gcc"
