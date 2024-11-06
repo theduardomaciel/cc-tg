@@ -11,7 +11,7 @@ static constexpr int INF = numeric_limits<int>::max();
 class PrimGraph : public WeightedGraph
 {
 public:
-    vector<int> cost;
+    vector<int> custo;
     vector<int> prev;
 
     // Construtor que herda de WeightedGraph
@@ -30,9 +30,9 @@ void prim(PrimGraph &g, int start, bool print_tree = false)
     // Criamos uma fila de prioridade mínima para armazenar os vértices
     priority_queue<int_pair, vector<int_pair>, greater<int_pair>> pq;
 
-    g.cost = vector<int>(g.size() + 1, INF);
+    g.custo = vector<int>(g.size() + 1, INF);
     g.prev = vector<int>(g.size() + 1, -1);
-    g.cost[start] = 0;
+    g.custo[start] = 0;
 
     // Adiciona o vértice inicial à fila de prioridade
     pq.push({0, start});
@@ -56,10 +56,10 @@ void prim(PrimGraph &g, int start, bool print_tree = false)
             int weight = x.second;
             // o equivalente a fazer: auto &[u, weight] : g.adj_out[u]
 
-            if (!visited[u] && g.cost[u] > weight)
+            if (!visited[u] && g.custo[u] > weight)
             {
-                g.cost[u] = weight;
-                pq.push({g.cost[u], u});
+                g.custo[u] = weight;
+                pq.push({g.custo[u], u});
                 g.prev[u] = v;
             }
         }
@@ -71,7 +71,7 @@ void prim(PrimGraph &g, int start, bool print_tree = false)
     {
         if (g.prev[i] != -1)
         {
-            total_cost += g.cost[i];
+            total_cost += g.custo[i];
 
             if (print_tree)
                 cout << "(" << g.prev[i] << "," << i << ")" << " ";

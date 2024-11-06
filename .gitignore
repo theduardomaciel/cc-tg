@@ -1,7 +1,5 @@
 # Ignorar todos os arquivos com as seguintes extensões
 *.bin
-*.bin
 
-# Ignorar todos os arquivos presentes nas seguintes pastas
-bin/
-bild/
+# Não ignorar arquivos .bin dentro de /tests/
+!tests/**/*.bin
