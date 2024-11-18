@@ -7,22 +7,24 @@ using namespace std;
 
 static constexpr int INF = numeric_limits<int>::max();
 
-class BellmanGraph : public WeightedGraph
+class BellmanGraph
 {
 public:
-    vector<vector<pair<int, int>>> adj_in;
+    vector<vector<pair<int, int>>> adj;
     vector<int> dist;
 
     // Construtor que herda de WeightedGraph
-    BellmanGraph(int n) : WeightedGraph(n, true), adj_in(n + 1), dist(n + 1, INF) {}
+    BellmanGraph(int n) : adj(n + 1), dist(n + 1, INF) {}
 
     // Inicialmente, a distância da origem para todos os outros vértices
     // é desconhecida, portanto, é definida como infinito (INF).
+    int size() const { return adj.size(); }
 
     void add_edge(int u, int v, int weight)
     {
-        WeightedGraph::add_edge(u, v, weight);
-        adj_in[v].push_back({u, weight});
+        // Grafo não direcionado
+        adj[u].push_back({v, weight});
+        adj[v].push_back({u, weight});
     }
 };
 
@@ -42,13 +44,13 @@ void bellman(BellmanGraph &g, int start)
     g.dist[start] = 0;
 
     // Passo 2: Relaxação de todas as arestas n vezes
-    // Rodamos para todas as arestas, e não n - 1, para detectar ciclos negativos
-    for (int l = 1; l < g.size() - 1; l++)
+    // Rodamos um loop adicional (n ao invés de n - 1) para detectar ciclos negativos
+    for (int l = 1; l < g.size(); l++)
     {
         for (int k = 1; k < g.size(); k++)
         {
             // $$d(l, k) = min_{v_i \in N^-(V_k)} \{d(l-1, v_i) + w(v_i, v_k)\}$$
-            for (const auto &edge : g.adj_in[k])
+            for (const auto &edge : g.adj[k])
             {
                 int i = edge.first;       // Vértice de origem
                 int weight = edge.second; // Peso da aresta
@@ -59,8 +61,9 @@ void bellman(BellmanGraph &g, int start)
                     // Se essa for a n-ésima iteração, então há um ciclo negativo
                     if (l == g.size() - 1)
                     {
+                        cout << "Ciclo negativo detectado" << endl;
                         g.dist[k] = -1;
-                        return;
+                        // return;
                     }
 
                     // Atualizamos a distância mínima até o vértice k
@@ -70,12 +73,30 @@ void bellman(BellmanGraph &g, int start)
         }
     }
 
+    // Verificamos a presença de ciclos negativos
+    /* for (int k = 1; k < g.size(); k++)
+    {
+        for (const auto &edge : g.adj[k])
+        {
+            int i = edge.first;       // Vértice de origem
+            int weight = edge.second; // Peso da aresta
+
+            // Se a distância do vértice de origem + o peso da aresta for menor que a distância mínima
+            // até o vértice k, então temos um ciclo negativo
+            if (g.dist[i] != INF && g.dist[i] + weight < g.dist[k])
+            {
+                cout << "Ciclo negativo detectado!" << endl;
+                return;
+            }
+        }
+    } */
+
     // Exibindo as distâncias mínimas
     for (int i = 1; i < g.size(); i++)
     {
         if (g.dist[i] == INF)
         {
-            cout << "-1";
+            cout << i << ":-1";
         }
         else
         {
@@ -93,15 +114,15 @@ int main(int argc, char *argv[])
     auto bellman_graph = read_weighted_graph<BellmanGraph>(input.in);
 
     // DEBUG: printar o grafo
-    cout << "Grafo de entrada:" << endl;
+    /* cout << "Grafo de entrada:" << endl;
     for (int i = 0; i < bellman_graph->size(); ++i)
     {
         cout << "Vértice " << i << ":" << endl;
-        for (const auto &edge : bellman_graph->adj_out[i])
+        for (const auto &edge : bellman_graph->adj[i])
         {
             cout << "  -> " << edge.first << " (peso " << edge.second << ")" << endl;
         }
-    }
+    } */
 
     // Executa o algoritmo de Bellman
     bellman(*bellman_graph, input.initial);

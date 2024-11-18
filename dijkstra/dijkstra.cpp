@@ -20,6 +20,7 @@ public:
 
     void add_edge(int u, int v, int weight)
     {
+        // Grafo não direcionado
         WeightedGraph::add_edge(u, v, weight);
         WeightedGraph::add_edge(v, u, weight); // Cuidamos de casos não-direcionados
     }
@@ -61,7 +62,7 @@ void dijkstra(DijkstraGraph &g, int start)
     {
         if (g.dist[i] == INF)
         {
-            cout << "-1";
+            cout << i << ":-1";
         }
         else
         {
