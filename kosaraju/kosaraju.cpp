@@ -7,7 +7,7 @@
 
 using namespace std;
 
-void kosaraju(KosarajuGraph &g)
+void kosaraju(KosarajuGraph &g, ostream &output = cout)
 {
     stack<int> aux_stack;
 
@@ -20,15 +20,15 @@ void kosaraju(KosarajuGraph &g)
     // Passo 1: Fazer DFS no grafo original para preencher a pilha
     dfs(g, g.adj_out, nullptr, pos_fill_stack);
 
-    // cout << "Ordem de visita dos vértices:" << endl;
+    // output << "Ordem de visita dos vértices:" << endl;
 
     // Resetamos as marcações de pré-ordem (pre) para a segunda DFS
     fill(g.pre.begin(), g.pre.end(), -1);
 
     // Função "pre" para exibir componentes fortemente conectados
-    auto pre_print_scc = [](int v)
+    auto pre_print_scc = [&output](int v)
     {
-        cout << v << " ";
+        output << v << " ";
     };
 
     // Passo 2: Fazer DFS no grafo reverso (usando adj_in) para encontrar as componentes fortemente conexas
@@ -40,7 +40,7 @@ void kosaraju(KosarajuGraph &g)
         if (g.pre[v] == -1)
         {
             dfs_recursion(g, v, g.adj_in, pre_print_scc, nullptr); // Executa DFS no grafo reverso
-            cout << endl;                                          // Finaliza o componente fortemente conectado
+            output << endl;                                        // Finaliza o componente fortemente conectado
         }
     }
 }
@@ -52,8 +52,25 @@ int main(int argc, char *argv[])
     // Lê o grafo do arquivo de entrada
     auto kosaraku_graph = read_graph<KosarajuGraph>(input.in);
 
+    // Verifica se há redirecionamento de saída
+    ostream *output_stream = &cout;
+    ofstream out_file;
+    if (!input.out.empty())
+    {
+        out_file.open(input.out);
+        if (out_file.is_open())
+        {
+            output_stream = &out_file;
+        }
+        else
+        {
+            cerr << "Erro ao abrir o arquivo de saída: " << input.out << endl;
+            exit(1);
+        }
+    }
+
     // Executa o algoritmo de Kosaraju
-    kosaraju(*kosaraku_graph);
+    kosaraju(*kosaraku_graph, *output_stream);
 
     return 0;
 }

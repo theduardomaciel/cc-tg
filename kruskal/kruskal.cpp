@@ -8,7 +8,7 @@
 
 using namespace std;
 
-void kruskal(WeightedGraph &g, bool print_tree)
+void kruskal(WeightedGraph &g, bool print_tree, ostream &output = cout)
 {
     DisjointSet ds(g.size());
     ds.make_set();
@@ -39,10 +39,10 @@ void kruskal(WeightedGraph &g, bool print_tree)
         // Adicionamos a aresta caso haja conexão entre dois componentes distintos
         if (x != y)
         {
-            // cout << u << " - " << v << " : " << weight << endl;
+            // output << u << " - " << v << " : " << weight << endl;
             if (print_tree)
             {
-                cout << "(" << u << "," << v << ")" << " ";
+                output << "(" << u << "," << v << ")" << " ";
             }
 
             cost += weight;
@@ -52,14 +52,14 @@ void kruskal(WeightedGraph &g, bool print_tree)
 
     if (print_tree)
     {
-        cout << endl;
+        output << endl;
     }
     else
     {
-        cout << cost << endl;
+        output << cost << endl;
     }
 
-    // cout << "Custo total da MST: " << cost << endl;
+    // output << "Custo total da MST: " << cost << endl;
 }
 
 int main(int argc, char *argv[])
@@ -70,7 +70,24 @@ int main(int argc, char *argv[])
     // Lê o grafo ponderado do arquivo de entrada
     auto kruskal_graph = read_weighted_graph<WeightedGraph>(input.in);
 
-    kruskal(*kruskal_graph, input.return_answer);
+    // Verifica se há redirecionamento de saída
+    ostream *output_stream = &cout;
+    ofstream out_file;
+    if (!input.out.empty())
+    {
+        out_file.open(input.out);
+        if (out_file.is_open())
+        {
+            output_stream = &out_file;
+        }
+        else
+        {
+            cerr << "Erro ao abrir o arquivo de saída: " << input.out << endl;
+            exit(1);
+        }
+    }
+
+    kruskal(*kruskal_graph, input.return_answer, *output_stream);
 
     return 0;
 }

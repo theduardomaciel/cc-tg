@@ -40,10 +40,9 @@ public:
 
 void bellman(BellmanGraph &g, int start)
 {
-    // Passo 1: Inicialização
     g.dist[start] = 0;
 
-    // Passo 2: Relaxação de todas as arestas n vezes
+    // "Relaxamos" todas as arestas n vezes
     // Rodamos um loop adicional (n ao invés de n - 1) para detectar ciclos negativos
     for (int l = 1; l < g.size(); l++)
     {
@@ -61,9 +60,9 @@ void bellman(BellmanGraph &g, int start)
                     // Se essa for a n-ésima iteração, então há um ciclo negativo
                     if (l == g.size() - 1)
                     {
-                        cout << "Ciclo negativo detectado" << endl;
+                        cout << "Ciclo negativo detectado!" << endl;
                         g.dist[k] = -1;
-                        // return;
+                        return;
                     }
 
                     // Atualizamos a distância mínima até o vértice k
@@ -72,24 +71,6 @@ void bellman(BellmanGraph &g, int start)
             }
         }
     }
-
-    // Verificamos a presença de ciclos negativos
-    /* for (int k = 1; k < g.size(); k++)
-    {
-        for (const auto &edge : g.adj[k])
-        {
-            int i = edge.first;       // Vértice de origem
-            int weight = edge.second; // Peso da aresta
-
-            // Se a distância do vértice de origem + o peso da aresta for menor que a distância mínima
-            // até o vértice k, então temos um ciclo negativo
-            if (g.dist[i] != INF && g.dist[i] + weight < g.dist[k])
-            {
-                cout << "Ciclo negativo detectado!" << endl;
-                return;
-            }
-        }
-    } */
 
     // Exibindo as distâncias mínimas
     for (int i = 1; i < g.size(); i++)

@@ -26,7 +26,7 @@ public:
     }
 };
 
-void dijkstra(DijkstraGraph &g, int start)
+void dijkstra(DijkstraGraph &g, int start, ostream &output = cout)
 {
     // Criamos uma fila de prioridade mínima para armazenar os vértices
     priority_queue<int_pair, vector<int_pair>, greater<int_pair>> pq;
@@ -62,16 +62,16 @@ void dijkstra(DijkstraGraph &g, int start)
     {
         if (g.dist[i] == INF)
         {
-            cout << i << ":-1";
+            output << i << ":-1";
         }
         else
         {
-            cout << i << ":" << g.dist[i];
+            output << i << ":" << g.dist[i];
         }
-        cout << " ";
+        output << " ";
     }
 
-    cout << endl;
+    output << endl;
 }
 
 int main(int argc, char *argv[])
@@ -82,8 +82,25 @@ int main(int argc, char *argv[])
     // Lê o grafo de entrada
     auto dijkstra_graph = read_weighted_graph<DijkstraGraph>(input.in);
 
+    // Verifica se há redirecionamento de saída
+    ostream *output_stream = &cout;
+    ofstream out_file;
+    if (!input.out.empty())
+    {
+        out_file.open(input.out);
+        if (out_file.is_open())
+        {
+            output_stream = &out_file;
+        }
+        else
+        {
+            cerr << "Erro ao abrir o arquivo de saída: " << input.out << endl;
+            exit(1);
+        }
+    }
+
     // Executa o algoritmo de Dijkstra
-    dijkstra(*dijkstra_graph, input.initial);
+    dijkstra(*dijkstra_graph, input.initial, *output_stream);
 
     return 0;
 }

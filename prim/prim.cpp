@@ -25,7 +25,7 @@ public:
 };
 
 // DAG = MST = Minimum Spanning Tree (árvore geradora mínima)
-void prim(PrimGraph &g, int start, bool print_tree = false)
+void prim(PrimGraph &g, int start, bool print_tree = false, ostream &output = cout)
 {
     // Criamos uma fila de prioridade mínima para armazenar os vértices
     priority_queue<int_pair, vector<int_pair>, greater<int_pair>> pq;
@@ -74,20 +74,20 @@ void prim(PrimGraph &g, int start, bool print_tree = false)
             total_cost += g.cost[i];
 
             if (print_tree)
-                cout << "(" << g.prev[i] << "," << i << ")" << " ";
+                output << "(" << g.prev[i] << "," << i << ")" << " ";
         }
     }
 
     if (print_tree)
     {
-        cout << endl;
+        output << endl;
     }
     else
     {
-        cout << total_cost << endl;
+        output << total_cost << endl;
     }
 
-    // cout << "Custo total: " << total_cost << endl;
+    // output << "Custo total: " << total_cost << endl;
 }
 
 int main(int argc, char *argv[])
@@ -98,7 +98,25 @@ int main(int argc, char *argv[])
     // Lê o grafo ponderado do arquivo de entrada
     auto prim_graph = read_weighted_graph<PrimGraph>(data.in);
 
-    prim(*prim_graph, data.initial, data.return_answer);
+    // Verifica se há redirecionamento de saída
+    ostream *output_stream = &cout;
+    ofstream out_file;
+    if (!data.out.empty())
+    {
+        out_file.open(data.out);
+        if (out_file.is_open())
+        {
+            output_stream = &out_file;
+        }
+        else
+        {
+            cerr << "Erro ao abrir o arquivo de saída: " << data.out << endl;
+            exit(1);
+        }
+    }
+
+    // Chama a função prim e direciona a saída
+    prim(*prim_graph, data.initial, data.return_answer, *output_stream);
 
     return 0;
 }
